@@ -18,9 +18,7 @@ export default function AddFriendForm({ uid }) {
           incomingRequest: [...friendDocument.incomingRequest, {name: document.displayName, uid}]
         });
         console.log(response);
-      } else {
-        console.log("Friend ID not found");
-      }
+      } 
     }
   };
   
