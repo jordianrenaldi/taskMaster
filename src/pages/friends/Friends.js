@@ -24,10 +24,9 @@ export default function Friends() {
       <div className={styles.sidebar}>
         <AddFriendForm uid={user.uid} />
       </div>
-      <div className={styles.sidebar}>
+      <div className={styles.content}>
         {document && <IncomingRequest requests={document.incomingRequest} uid={user.uid}/>}
       </div>
-
     </div>
   )
 }
