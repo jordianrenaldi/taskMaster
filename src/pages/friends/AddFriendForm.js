@@ -5,15 +5,24 @@ import { useDocument } from '../../hooks/useDocument'
 export default function TransactionForm({ uid }) {
   const [friendUID, setFriendUID] = useState('')
   const { updateDocument, response } = useFirestore('userFriendData')
-  const { document, error } = useDocument('userFriendData', uid)
+  const { document, error } = useDocument('usernameMapping', uid)
+  const { document: friendDocument, error: friendError} = useDocument('userFriendData', friendUID);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await updateDocument(uid, {
-      outgoingRequest: [ ...document.outgoingRequest, friendUID]
-    })
-    console.log(response)
-  }
+    console.log("Handler is called");
+    e.preventDefault();
+    
+    if (friendUID) {
+      if (friendDocument && document) {
+        await updateDocument(friendUID, {
+          incomingRequest: [...friendDocument.incomingRequest, {name: document.displayName, uid}]
+        });
+        console.log(response);
+      } else {
+        console.log("Friend ID not found");
+      }
+    }
+  };
   
 
   // reset the form fields
@@ -26,6 +35,9 @@ export default function TransactionForm({ uid }) {
   return (
     <>
       <h3>Add a New Friend</h3>
+      {response.isPending && <p>Loading...</p>}
+      {response.error && <p>Error: {response.error}</p>}
+      {response.success && <p>Friend added successfully!</p>}
       <form onSubmit={handleSubmit}>
         <label>
           <span>Friend UID:</span>
