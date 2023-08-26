@@ -1,28 +1,30 @@
-import { useState, useEffect } from 'react'
-import { useFirestore } from '../../hooks/useFirestore'
+import { useState, useEffect } from "react";
+import { useFirestore } from "../../hooks/useFirestore";
 
 export default function TaskForm({ uid }) {
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const { addDocument, response } = useFirestore('tasks')
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [duration, setDuration] = useState("");
+  const { addDocument, response } = useFirestore("tasks");
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     addDocument({
-      uid, 
-      name, 
+      uid,
+      name,
       description,
+      duration,
       subtask: [],
-    })
-  }
+    });
+  };
 
   // reset the form fields
   useEffect(() => {
     if (response.success) {
-      setName('')
-      setDescription('')
+      setName("");
+      setDescription("");
     }
-  }, [response.success])
+  }, [response.success]);
 
   return (
     <>
@@ -30,23 +32,34 @@ export default function TaskForm({ uid }) {
       <form onSubmit={handleSubmit}>
         <label>
           <span>Task name:</span>
-          <input 
+          <input
             type="text"
             required
-            onChange={(e) => setName(e.target.value)} 
-            value={name} 
+            onChange={(e) => setName(e.target.value)}
+            value={name}
           />
         </label>
         <label>
           <span>Description:</span>
           <textarea
+            cols="30"
+            rows="5"
             required
-            onChange={(e) => setDescription(e.target.value)} 
-            value={description} 
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+          />
+        </label>
+        <label>
+          <span>Duration (e.g. 5hrs 30mins):</span>
+          <input
+            type="text"
+            required
+            onChange={(e) => setDuration(e.target.value)}
+            value={duration}
           />
         </label>
         <button>Break Down Task</button>
       </form>
     </>
-  )
+  );
 }
