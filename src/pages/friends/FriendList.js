@@ -24,7 +24,6 @@ export default function FriendList({ friends }) {
         }
       }
       
-
       // Sort the friends by points
       friendsWithPoints.sort((a, b) => b.points - a.points);
 
