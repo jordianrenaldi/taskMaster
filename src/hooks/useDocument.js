@@ -7,6 +7,9 @@ export const useDocument = (collection, id) => {
 
   // realtime document data
   useEffect(() => {
+    if (!id) {
+      // return early or set some default state
+      return;}
     const ref = projectFirestore.collection(collection).doc(id)
 
     const unsubscribe = ref.onSnapshot(snapshot => {
