@@ -1,3 +1,4 @@
+import TaskBreaker from '../../components/TaskBreaker';
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useCollection } from '../../hooks/useCollection'
 import { useDocument } from "../../hooks/useDocument";
@@ -22,6 +23,7 @@ export default function Home() {
       <div className={styles.sidebar}>
         <TaskForm uid={user.uid} />
       </div>
+      <TaskBreaker></TaskBreaker>
     </div>
   )
 }
