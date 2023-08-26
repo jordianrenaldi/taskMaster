@@ -10,11 +10,14 @@ export default function IncomingRequest({ requests, uid }) {
     const { updateDocument, response } = useFirestore('userFriendData')
     const { document: documentUser, error: errorUser } = useDocument('userFriendData', uid)
     const { document: documentFriend, error: errorFriend } = useDocument('userFriendData', friendUID)
-    const { documentUsername, error } = useDocument('usernameMapping', uid)
+    const { document: documentUsername, error } = useDocument('usernameMapping', uid)
 
     const handleSubmit = async(requestUID, requestName) => {
+        console.log("start accept")
         setFriendUID(requestUID);
         setFriendName(requestName);
+        console.log(requestUID, requestName)
+        console.log(documentUser, documentFriend, documentUsername)
         if (documentUser && documentFriend && documentUsername) {
             await updateDocument(uid, {
               friends: [...documentUser.friends, {uid: requestUID, name: requestName}],
@@ -29,7 +32,9 @@ export default function IncomingRequest({ requests, uid }) {
     }}
 
     return (
-        <ul>
+        <>
+        <h3>Friend Requests</h3>
+        <ul className={styles.transactions}>
             {requests && requests.length === 0 && "You don't have any friend requests"}
             {requests && requests.length >= 1 && requests.map((request) => (
                 <li key={request.uid}>
@@ -39,5 +44,6 @@ export default function IncomingRequest({ requests, uid }) {
                 </li>
             ))}
         </ul>
+        </>
       )
 }
