@@ -37,7 +37,7 @@ export default function TransactionForm({ uid }) {
       <h3>Add a New Friend</h3>
       {response.isPending && <p>Loading...</p>}
       {response.error && <p>Error: {response.error}</p>}
-      {response.success && <p>Friend added successfully!</p>}
+      {response.success && <p>Friend request sent successfully!</p>}
       <form onSubmit={handleSubmit}>
         <label>
           <span>Friend UID:</span>
