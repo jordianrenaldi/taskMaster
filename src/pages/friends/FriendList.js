@@ -15,13 +15,15 @@ export default function FriendList({ friends }) {
     const fetchAndSortFriends = async () => {
       let friendsWithPoints = [];
       
-
-      for (const friend of friends) {
-        const doc = documents.find((document) => document.id === friend.uid);
-        if (doc) {
-          friendsWithPoints.push({ ...friend, points: doc.points });
+      if (documents) {
+        for (const friend of friends) {
+          const doc = documents.find((document) => document.id === friend.uid);
+          if (doc) {
+            friendsWithPoints.push({ ...friend, points: doc.points });
+          }
         }
       }
+      
 
       // Sort the friends by points
       friendsWithPoints.sort((a, b) => b.points - a.points);
