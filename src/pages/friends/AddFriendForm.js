@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useFirestore } from '../../hooks/useFirestore'
 import { useDocument } from '../../hooks/useDocument'
 
-export default function TransactionForm({ uid }) {
+export default function AddFriendForm({ uid }) {
   const [friendUID, setFriendUID] = useState('')
   const { updateDocument, response } = useFirestore('userFriendData')
   const { document, error } = useDocument('usernameMapping', uid)
