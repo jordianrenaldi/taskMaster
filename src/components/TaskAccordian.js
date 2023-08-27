@@ -9,13 +9,16 @@ import {
   Button,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useDocument } from "../hooks/useDocument";
 
 // for gif
 import Snackbar from '@mui/material/Snackbar';
 import Modal from '@mui/material/Modal';
 
 export default function TaskAccordion({ maintask, subTasks }) {
+  const { user } = useAuthContext();
+  const { document, error } = useDocument("userEnergyAndPoints", user?.uid);
   // State to track checked status of checkboxes
   const [checkedTasks, setCheckedTasks] = useState([]);
 
@@ -48,6 +51,7 @@ export default function TaskAccordion({ maintask, subTasks }) {
     const totalChecked = checkedTasks.filter(Boolean).length;
 
     if (totalChecked === subTasks.steps.length){
+      user['points'] += (subTasks.steps.length-totalChecked) * 5;
       setOpenSnackbar(true);
       setOpenModal(true);
 
@@ -56,6 +60,7 @@ export default function TaskAccordion({ maintask, subTasks }) {
       audio.play();
 
     } else {
+      user['points'] += 5;
       alert(`Congratulations! You've completed ${countChecked} out of ${subTasks.steps.length} tasks.`);
     }
     
