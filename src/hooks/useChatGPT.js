@@ -23,7 +23,7 @@ export async function fetchChatGPT(task, duration) {
       },
       {
         role: "user",
-        content: `I am an ADHD person who requires help in planning tasks. Break down the task "${task}" into smaller tasks (maximum 10 sub tasks) which is expected to take ${duration}. Return in the JSON format like {"steps": [{"stepId": 1, "stepTitle": "Plan for part a", "stepDescription": "You should do plan a wknfdkwjnf", "duration": "5 minutes"}], "totalDuration": "3 hours"}`,
+        content: `I am an ADHD individual who requires help in planning tasks. Break down the task "${task}" into smaller tasks (maximum 5 sub tasks) which is expected to take ${duration}. Return in the JSON format like {"steps": [{"stepId": 1, "stepTitle": "Plan for part a", "stepDescription": "You should do plan a wknfdkwjnf", "duration": "5 minutes"}], "totalDuration": "3 hours"}`,
       },
     ],
   };

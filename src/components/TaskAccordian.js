@@ -6,12 +6,29 @@ import {
   Checkbox,
   FormControlLabel,
   Typography,
+  Button,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+
+// for gif
+import Snackbar from '@mui/material/Snackbar';
+import Modal from '@mui/material/Modal';
+
+// import sound
+// import congratulationsSound from "./congratulations.mp3";
+
 
 export default function TaskAccordion({ maintask, subTasks }) {
   // State to track checked status of checkboxes
   const [checkedTasks, setCheckedTasks] = useState([]);
+
+  // State to track the number of checkboxes that are ticked
+  const [countChecked, setCountChecked] = useState(0);
+
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
 
   useEffect(() => {
     // Initialize the checkedTasks array based on subTasks.steps length
@@ -23,6 +40,29 @@ export default function TaskAccordion({ maintask, subTasks }) {
     const newCheckedTasks = [...checkedTasks];
     newCheckedTasks[index] = !newCheckedTasks[index];
     setCheckedTasks(newCheckedTasks);
+
+    // Update the count of checked checkboxes
+    const newCount = newCheckedTasks.filter(Boolean).length;
+    setCountChecked(newCount);
+  };
+
+
+    // Handle the "Complete" button click
+  const handleCompleteClick = () => {
+    const totalChecked = checkedTasks.filter(Boolean).length;
+
+    if (totalChecked === subTasks.steps.length){
+      setOpenSnackbar(true);
+      setOpenModal(true);
+
+      // Play the sound
+      // const audio = new Audio(congratulationsSound);
+      // audio.play();
+
+    } else {
+      alert(`Congratulations! You've completed ${countChecked} out of ${subTasks.steps.length} tasks.`);
+    }
+    
   };
 
   return (
@@ -57,6 +97,23 @@ export default function TaskAccordion({ maintask, subTasks }) {
             </Typography>
           </React.Fragment>
         ))}
+        
+        <button onClick={handleCompleteClick}>Complete</button>
+
+        <Snackbar 
+          open={openSnackbar} 
+          autoHideDuration={6000} 
+          onClose={() => setOpenSnackbar(false)}
+          message="Congratulations! You've completed all tasks."
+        />
+
+        <Modal open={openModal} onClose={() => setOpenModal(false)}>
+          <div>
+            <h2>Congratulations!</h2>
+            <img src="https://i.gifer.com/1rRk.gif" alt="Congratulations Gif" />
+          </div>
+        </Modal>
+
       </AccordionDetails>
     </Accordion>
   );
