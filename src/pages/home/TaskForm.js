@@ -1,28 +1,49 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { fetchChatGPT } from "../../hooks/useChatGPT";
 import { useFirestore } from "../../hooks/useFirestore";
+import TaskAccordion from "../../components/TaskAccordian";
+import Timer from "../../components/Timer";
 
 export default function TaskForm({ uid }) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [duration, setDuration] = useState("");
   const { addDocument, response } = useFirestore("tasks");
+  const [task, setTask] = useState("");
+  const [duration, setDuration] = useState("");
+  const [contentJSON, setContentJSON] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleTaskChange = (e) => {
+    setTask(e.target.value);
+  };
+
+  const handleDurationChange = (e) => {
+    setDuration(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    addDocument({
-      uid,
-      name,
-      description,
-      duration,
-      subtask: [],
-    });
+    // addDocument({
+    //   uid,
+    //   name,
+    //   description,
+    //   duration,
+    //   subtask: [],
+    // });
+
+    // Here, you'll make an API request to ChatGPT to break down the task
+
+    console.log("FETCHING RESPONSE");
+    const response = await fetchChatGPT(task, duration);
+    console.log("END RESPONSE");
+    const content = response.choices[0].message.content;
+    const JSONContent = JSON.parse(content);
+    console.log(JSONContent);
+    setContentJSON(JSONContent);
   };
 
   // reset the form fields
   useEffect(() => {
     if (response.success) {
-      setName("");
-      setDescription("");
+      setTask("");
+      setDuration("");
     }
   }, [response.success]);
 
@@ -35,18 +56,8 @@ export default function TaskForm({ uid }) {
           <input
             type="text"
             required
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-          />
-        </label>
-        <label>
-          <span>Description:</span>
-          <textarea
-            cols="30"
-            rows="5"
-            required
-            onChange={(e) => setDescription(e.target.value)}
-            value={description}
+            value={task}
+            onChange={handleTaskChange}
           />
         </label>
         <label>
@@ -54,12 +65,14 @@ export default function TaskForm({ uid }) {
           <input
             type="text"
             required
-            onChange={(e) => setDuration(e.target.value)}
             value={duration}
+            onChange={handleDurationChange}
           />
         </label>
-        <button>Break Down Task</button>
+        <button type="submit">Break Down Task</button>
       </form>
+
+      {contentJSON === null ? null : <TaskAccordion subTasks={contentJSON} maintask={task}/>}
     </>
   );
 }
