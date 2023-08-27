@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useLogout } from "../hooks/useLogout";
 import { useDocument } from "../hooks/useDocument";
@@ -15,6 +15,10 @@ export default function Navbar() {
     "Welcome, " + (user ? user.displayName : "")
   );
   const buttonRef = useRef(null);
+  const [tooltipEnergyVisible, setTooltipEnergyVisible] = useState(false); // Track energy tooltip visibility
+  const [tooltipPointsVisible, setTooltipPointsVisible] = useState(false); // Track points tooltip visibility
+
+  const location = useLocation(); 
 
   useEffect(() => {
     if (user) {
@@ -45,10 +49,20 @@ export default function Navbar() {
     }
   };
 
+  const handleEnergyButtonClick = () => {
+    setTooltipEnergyVisible(!tooltipEnergyVisible); // toggle energy tooltip visibility
+  };
+
+  const handlePointsButtonClick = () => {
+    setTooltipPointsVisible(!tooltipPointsVisible); // toggle points tooltip visibility
+  };
+
   return (
     <nav className={styles.navbar}>
       <ul>
-        <li className={styles.title}><Link to="/">TaskMaster</Link></li>
+        <li className={styles.title}>
+          <Link to="/" className={location.pathname === "/" ? styles.activeLink : ""}>TaskMaster</Link>
+        </li>
 
         {!user && (
           <>
@@ -65,21 +79,47 @@ export default function Navbar() {
           <>
             <li>
               <div className={styles.energyContainer}>
-                <img
-                  src="/flash.png"
-                  alt="Energy Logo"
-                  className={styles.energyLogo}
-                />
                 <button
-                  className="btn"
-                  title="You are given 100 points every day. Different tasks will take up different amount of points."
+                  className={styles.energyButton}
+                  onClick={handleEnergyButtonClick}
                 >
-                  {document ? document["energy"] : ""} pts
+                  {document ? document["energy"] : ""}
+                  <img
+                    src="/power.png"
+                    alt="Energy Logo"
+                    className={styles.energyLogo}
+                  />
                 </button>
+                {tooltipEnergyVisible && (
+                  <div className={styles.tooltip}>
+                    You are given 100 points every day. Different tasks will
+                    take up different amount of points.
+                  </div>
+                )}
               </div>
             </li>
             <li>
-              <Link to="/friends">Friends</Link>
+              <div className={styles.energyContainer}>
+                <button
+                  className={styles.energyButton}
+                  onClick={handlePointsButtonClick}
+                >
+                  {document ? document["points"] : ""}
+                  <img
+                    src="/shield.png"
+                    alt="Energy Logo"
+                    className={styles.energyLogo}
+                  />
+                </button>
+                {tooltipPointsVisible && (
+                  <div className={styles.tooltip}>
+                    You will get points each time you finish a task on time :D
+                  </div>
+                )}
+              </div>
+            </li>
+            <li>
+              <Link to="/friends" className={location.pathname === "/friends" ? styles.activeLink : ""}>Friends</Link>
             </li>
             <li>
               <button
