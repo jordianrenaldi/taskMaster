@@ -39,12 +39,21 @@ npm start
 ## Troubleshooting
 
 **1. Package.json Script Modifications**<br>
-In your package.json file under the scripts section, change start and build to include --openssl-legacy-provider.
+In your package.json file under the scripts section, change start and build to include/remove --openssl-legacy-provider as deemed fit
 
 ```javascript
 "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts --openssl-legacy-provider build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  }
+```
+or 
+```javascript
+"scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   }
