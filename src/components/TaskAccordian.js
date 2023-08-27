@@ -15,7 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Snackbar from '@mui/material/Snackbar';
 import Modal from '@mui/material/Modal';
 
-export default function TaskAccordion({ maintask, subTasks }) {
+export default function TaskAccordion({ maintask, subTasks , clearTask}) {
   // State to track checked status of checkboxes
   const [checkedTasks, setCheckedTasks] = useState([]);
 
@@ -54,6 +54,8 @@ export default function TaskAccordion({ maintask, subTasks }) {
       // Play the sound
       const audio = new Audio('/AudioApplause.wav');
       audio.play();
+
+      clearTask();
 
     } else {
       alert(`Congratulations! You've completed ${countChecked} out of ${subTasks.steps.length} tasks.`);

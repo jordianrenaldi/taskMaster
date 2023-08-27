@@ -7,6 +7,14 @@ function TaskBreaker() {
     const [duration, setDuration] = useState('');
     const [contentJSON, setContentJSON]=useState(null);
 
+    const clearTask = () => {
+        setTimeout(() => {
+            setTask('');
+            setDuration('');
+            setContentJSON(null);
+        }, 6000);
+    }
+
     const handleTaskChange = (e) => {
         setTask(e.target.value);
     };
@@ -47,7 +55,7 @@ function TaskBreaker() {
                 />
                 <button type="submit">Break Down Task</button>
             </form>
-           {contentJSON === null ? null : <TaskAccordion subTasks={contentJSON} maintask={task}/>}
+           {contentJSON === null ? null : <TaskAccordion subTasks={contentJSON} maintask={task} clearTask={clearTask}/>}
         </div>
     );
 }
