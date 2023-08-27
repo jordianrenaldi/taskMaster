@@ -13,7 +13,7 @@ You can try downgrading the versions to match above if npm start produces error 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/taskMaster.git
+    git clone https://github.com/jordianrenaldi/taskMaster.git
     ```
 
 2. Navigate to the project directory:
