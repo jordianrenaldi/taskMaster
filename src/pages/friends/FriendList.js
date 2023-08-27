@@ -35,7 +35,7 @@ export default function FriendList({ friends }) {
 
   return (
     <>
-      <h3>Friend List Lederboard</h3>
+      <h3>Friend List Leaderboard</h3>
       {sortedFriends && sortedFriends.length === 0 && "No friends yet :("}
       <ul className={styles.transactions}>
         {sortedFriends.map((friend, index) => (
