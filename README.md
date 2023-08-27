@@ -6,7 +6,7 @@ Task Master for Tech Series Ellipsis 2023
 - Node.js version 16.17.1
 - npm version 9.4.1
 
-You can try downgrading the versions to match above if npm start produces error reagrding versions
+You can try downgrading the versions to match above if npm start produces error regarding versions
 
 ## Installation
 
