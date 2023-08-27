@@ -6,21 +6,26 @@ import { useCollection } from '../../hooks/useCollection'
 // styles
 import styles from './Home.module.css'
 
-export default function FriendList({ friends }) {
+export default function FriendList({ friends, uid }) {
   const [sortedFriends, setSortedFriends] = useState([]);
   const { documents, error } = useCollection('userEnergyAndPoints')
   console.log(documents)
+  const { document: documentUsername, error: errorUsername } = useDocument('usernameMapping', uid)
 
   useEffect(() => {
     const fetchAndSortFriends = async () => {
       let friendsWithPoints = [];
       
-      if (documents) {
+      if (documents && documentUsername) {
         for (const friend of friends) {
           const doc = documents.find((document) => document.id === friend.uid);
           if (doc) {
             friendsWithPoints.push({ ...friend, points: doc.points });
           }
+        }
+        const doc = documents.find((document) => document.id === uid);
+        if (doc) {
+          friendsWithPoints.push({ name: documentUsername.displayName, uid, points: doc.points });
         }
       }
       
@@ -35,7 +40,7 @@ export default function FriendList({ friends }) {
 
   return (
     <>
-      <h3>Friend List Lederboard</h3>
+      <h3>Friend List Leaderboard</h3>
       {sortedFriends && sortedFriends.length === 0 && "No friends yet :("}
       <ul className={styles.transactions}>
         {sortedFriends.map((friend, index) => (

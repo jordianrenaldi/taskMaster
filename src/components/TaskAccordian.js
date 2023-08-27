@@ -9,7 +9,8 @@ import {
   Button,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useDocument } from "../hooks/useDocument";
 
 // for gif
 import Snackbar from '@mui/material/Snackbar';
@@ -48,6 +49,7 @@ export default function TaskAccordion({ maintask, subTasks , clearTask}) {
     const totalChecked = checkedTasks.filter(Boolean).length;
 
     if (totalChecked === subTasks.steps.length){
+      // user['points'] += (subTasks.steps.length-totalChecked) * 5;
       setOpenSnackbar(true);
       setOpenModal(true);
 
@@ -58,6 +60,7 @@ export default function TaskAccordion({ maintask, subTasks , clearTask}) {
       clearTask();
 
     } else {
+      // user['points'] += 5;
       alert(`Congratulations! You've completed ${countChecked} out of ${subTasks.steps.length} tasks.`);
     }
     
