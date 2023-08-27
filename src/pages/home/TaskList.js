@@ -1,20 +1,28 @@
-import { useFirestore } from '../../hooks/useFirestore'
+import { useFirestore } from "../../hooks/useFirestore";
+import TaskAccordion from "../../components/TaskAccordian";
 
 // styles
-import styles from './Home.module.css'
+import styles from "./Home.module.css";
 
-export default function TaskList({ tasks }) {
-  const { deleteDocument } = useFirestore('tasks')
+export default function TaskList({ maintasks }) {
+  const { deleteDocument } = useFirestore("tasks");
 
   return (
-    <ul className={styles.transactions}>
-      {tasks.map((task) => (
+    <ul>
+      {maintasks.map((task) => (
         <li key={task.id}>
-          <p className={styles.name}>{task.name}</p>
-          <p className={styles.amount}>{task.description}</p>
-          <button onClick={() => deleteDocument(task.id)}>x</button>
+          <div className={styles.accordionList}>
+            <div className={styles.deleteContainer}>
+              <img
+                src={"/trash.png"}
+                className={styles.delete}
+                onClick={() => deleteDocument(task.id)}
+              />
+            </div>
+            <TaskAccordion maintask={task.taskName} subTasks={task.content} />
+          </div>
         </li>
       ))}
     </ul>
-  )
+  );
 }

@@ -90,3 +90,20 @@
   font-size: 0.9em;
   cursor: pointer;
 }
+.deleteContainer {
+  margin-right: 8px;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  /* min-width: 0; Override minimum width constraint */
+  /* overflow: hidden; Hide overflow if necessary */
+}
+.delete {
+  max-width: 20px;
+}
+.accordionList {
+  display:inline-flex;
+  align-items: center;
+  justify-content: space-between;
+}

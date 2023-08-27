@@ -11,12 +11,13 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useDocument } from "../hooks/useDocument";
+import { useFirestore } from "../hooks/useFirestore";
 
 // for gif
-import Snackbar from '@mui/material/Snackbar';
-import Modal from '@mui/material/Modal';
+import Snackbar from "@mui/material/Snackbar";
+import Modal from "@mui/material/Modal";
 
-export default function TaskAccordion({ maintask, subTasks , clearTask}) {
+export default function TaskAccordion({ maintask, subTasks }) {
   // State to track checked status of checkboxes
   const [checkedTasks, setCheckedTasks] = useState([]);
 
@@ -25,7 +26,7 @@ export default function TaskAccordion({ maintask, subTasks , clearTask}) {
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-
+  console.log(subTasks);
 
   useEffect(() => {
     // Initialize the checkedTasks array based on subTasks.steps length
@@ -43,27 +44,26 @@ export default function TaskAccordion({ maintask, subTasks , clearTask}) {
     setCountChecked(newCount);
   };
 
-
-    // Handle the "Complete" button click
+  // Handle the "Complete" button click
   const handleCompleteClick = () => {
     const totalChecked = checkedTasks.filter(Boolean).length;
 
-    if (totalChecked === subTasks.steps.length){
+    if (totalChecked === subTasks.steps.length) {
       // user['points'] += (subTasks.steps.length-totalChecked) * 5;
       setOpenSnackbar(true);
       setOpenModal(true);
 
       // Play the sound
-      const audio = new Audio('/AudioApplause.wav');
+      const audio = new Audio("/AudioApplause.wav");
       audio.play();
 
-      clearTask();
-
+      // clearTask();
     } else {
       // user['points'] += 5;
-      alert(`Congratulations! You've completed ${countChecked} out of ${subTasks.steps.length} tasks.`);
+      alert(
+        `Congratulations! You've completed ${countChecked} out of ${subTasks.steps.length} tasks.`
+      );
     }
-    
   };
 
   return (
@@ -98,12 +98,12 @@ export default function TaskAccordion({ maintask, subTasks , clearTask}) {
             </Typography>
           </React.Fragment>
         ))}
-        
+
         <button onClick={handleCompleteClick}>Complete</button>
 
-        <Snackbar 
-          open={openSnackbar} 
-          autoHideDuration={6000} 
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
           onClose={() => setOpenSnackbar(false)}
           message="Congratulations! You've completed all tasks."
         />
@@ -114,7 +114,6 @@ export default function TaskAccordion({ maintask, subTasks , clearTask}) {
             <img src="https://i.gifer.com/1rRk.gif" alt="Congratulations Gif" />
           </div>
         </Modal>
-
       </AccordionDetails>
     </Accordion>
   );

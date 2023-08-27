@@ -20,13 +20,6 @@ export default function TaskForm({ uid }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // addDocument({
-    //   uid,
-    //   name,
-    //   description,
-    //   duration,
-    //   subtask: [],
-    // });
 
     // Here, you'll make an API request to ChatGPT to break down the task
 
@@ -37,6 +30,26 @@ export default function TaskForm({ uid }) {
     const JSONContent = JSON.parse(content);
     console.log(JSONContent);
     setContentJSON(JSONContent);
+
+  //   // Extract subtasks from JSONContent and create an array of subtasks
+  // const subtasks = JSONContent.steps.map((step) => ({
+  //   stepId: step.stepId,
+  //   stepTitle: step.stepTitle,
+  //   stepDescription: step.stepDescription,
+  //   duration: step.duration,
+  // }));
+  // console.log(subtasks);
+
+  // Create the data object to be added to Firestore
+  const data = {
+    uid: uid,
+    taskName: task,
+    content: JSONContent,
+    duration: JSONContent.totalDuration,
+  };
+
+  // Add the data to Firestore
+  addDocument(data);
   };
 
   // reset the form fields
@@ -72,7 +85,7 @@ export default function TaskForm({ uid }) {
         <button type="submit">Break Down Task</button>
       </form>
 
-      {contentJSON === null ? null : <div><TaskAccordion subTasks={contentJSON} maintask={task}/><Timer totalDuration={parseInt(contentJSON.totalDuration, 10)}/></div>}
+      {contentJSON === null ? null : <div><Timer totalDuration={parseInt(contentJSON.totalDuration)}/></div>}
     </>
   );
 }

@@ -18,12 +18,11 @@ export default function Home() {
     <div className={styles.container}>
       <div className={styles.content}>
         {error && <p>{error}</p>}
-        {documents && <TaskList tasks={documents} />}
+        {documents && <TaskList maintasks={documents} />}
       </div>
       <div className={styles.sidebar}>
         <TaskForm uid={user.uid} />
       </div>
-      <TaskBreaker></TaskBreaker>
     </div>
   )
 }
