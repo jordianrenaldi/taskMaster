@@ -72,7 +72,7 @@ export default function TaskForm({ uid }) {
         <button type="submit">Break Down Task</button>
       </form>
 
-      {contentJSON === null ? null : <TaskAccordion subTasks={contentJSON} maintask={task}/>}
+      {contentJSON === null ? null : <div><TaskAccordion subTasks={contentJSON} maintask={task}/><Timer totalDuration={parseInt(contentJSON.totalDuration, 10)}/></div>}
     </>
   );
 }
