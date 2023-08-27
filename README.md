@@ -36,7 +36,7 @@ npm start
 
 ## Troubleshooting
 
-**1. Package.json Script Modifications**
+**1. Package.json Script Modifications**<br>
 In your package.json file under the scripts section, change start and build to include --openssl-legacy-provider.
 
 ```javascript
@@ -48,7 +48,7 @@ In your package.json file under the scripts section, change start and build to i
   }
 ```
 
-**2. Missing Modules**
+**2. Missing Modules**<br>
 If you encounter missing modules, you can download them using the following command:
 ```bash
 npm install @mui/icons-material @mui/material openai @emotion/react @emotion/styled
