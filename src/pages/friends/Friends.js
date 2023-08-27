@@ -19,7 +19,7 @@ export default function Friends() {
     <div className={styles.container}>
       <div className={styles.content}>
         {error && <p>{error}</p>}
-        {document && <FriendList friends={document.friends} />}
+        {document && <FriendList friends={document.friends} uid={user.uid} />}
       </div>
       <div className={styles.sidebar}>
         <AddFriendForm uid={user.uid} />
